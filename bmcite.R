@@ -20,8 +20,8 @@ library(cowplot)
 project<-"AML-bmcite"
 Sys.setenv(language="en")
 if (project == "AML-bmcite"){
-  working_dir<-"C:/Users/jtao/work_dir/AML/data"
-  graph_dir<- "C:/Users/jtao/work_dir/CTCL/data/images/"
+  working_dir<-"/home/tjinyan/work_dir/AML/data"
+  graph_dir<- "/home/tjinyan/work_dir/AML/data/output/images"
   if (dir.exists(graph_dir)){
     graph_dir <- graph_dir
   } else {dir.create(graph_dir)}
