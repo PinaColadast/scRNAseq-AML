@@ -11,7 +11,6 @@ library(cowplot)
 library(biomaRt)
 library(SingleCellExperiment)
 library(scater)
-library(SingleR)
 library(patchwork)
 library(cowplot)
 
@@ -45,7 +44,7 @@ Seurat.STnorm.pca <- function(SeuratObj){
   
   SeuratObj <- CellCycleScoring(SeuratObj, s.features = s.genes, g2m.features = g2m.genes, set.ident = TRUE)
   SeuratObj.ST <- SCTransform(SeuratObj, assay = "RNA",vars.to.regress =c( "percent.mt", "S.Score", "G2M.Score" ), return.only.var.genes = FALSE)
-  SeuratObj.ST <- FindVariableFeatures(SeuratObj.ST, nfeatures = 15000) 
+  SeuratObj.ST <- FindVariableFeatures(SeuratObj.ST, nfeatures = 6000) 
   SeuratObj.ST <- ScaleData(SeuratObj.ST)
   SeuratObj.ST <- RunPCA(SeuratObj.ST)
   
@@ -76,7 +75,7 @@ g2m.genes <- cc.genes$g2m.genes
 
 
 bm <- Seurat.STnorm.pca(bm)
-saveRDS(bm, paste(working_dir, "bmcite.SCT.rds", sep = "/"))
+saveRDS(bm, paste(working_dir, "bmcite6000.SCT.rds", sep = "/"))
 
 
 
