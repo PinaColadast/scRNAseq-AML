@@ -93,4 +93,5 @@ Sobj <- CreateSeuratObject(mtx, min.cells = 3, min.features = 200)
 #==========================================================================
 
 Sobj <- Seurat.STnorm.pca(Sobj)
-saveRDS(Sobj, paste(working_dir,"/output/", "SCT_", file, sep =""))
+out_name <- strsplit(file, ".", fixed = TRUE)[[1]][[1]]
+saveRDS(Sobj, paste(working_dir,"/output/", "SCT_", out_name, sep =""))
