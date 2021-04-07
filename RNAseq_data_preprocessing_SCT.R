@@ -20,13 +20,15 @@ library(cowplot)
 library(optparse)
 
 option_list <- list(
-  make_option(c("-d", "--data_dir"),
+  make_option(c("-d", "--data_dir"), action = "store",
+              type = "character",
               help="matrix object filepath"),
-  make_option(c("-f", "--file_name"), 
+  make_option(c("-f", "--file_name"), action= "store",
+              type = "character",
               help = "file name")
 )
 
-parser <- OptionParser(usage="%prog [options] file", option_list=option_list)
+parser <- OptionParser(option_list=option_list)
 
 args <- parse_args(parser, positional_arguments = 1)
 working_dir <- args$data_dir
