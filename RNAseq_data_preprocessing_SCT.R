@@ -1,6 +1,6 @@
 #raw data processing 
 #based on RNA transcriptomic matrix
-args = commandArgs(trailiingOnly = TRUE)
+args = commandArgs(trailingOnly = TRUE)
 
 library(data.table)
 library(ggplot2)
