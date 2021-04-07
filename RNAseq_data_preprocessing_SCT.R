@@ -92,7 +92,7 @@ Sobj <- CreateSeuratObject(mtx, min.cells = 3, min.features = 200)
 # SCT transformation  
 #==========================================================================
 
-# Sobj <- Seurat.STnorm.pca(Sobj)
+Sobj <- Seurat.STnorm.pca(Sobj)
 out_name <- strsplit(file, ".", fixed = TRUE)[[1]][[1]]
 out_dir <- paste(working_dir,"/output", sep ="")
 
