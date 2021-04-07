@@ -1,6 +1,6 @@
 #raw data processing 
 #based on RNA transcriptomic matrix
-
+args = commandArgs(trailiingOnly = TRUE)
 
 library(data.table)
 library(ggplot2)
@@ -19,21 +19,28 @@ library(patchwork)
 library(cowplot)
 library(optparse)
 
-option_list <- list(
-  make_option(c("-d", "--datadir"), action = "store",
-              type = "character",
-              help="matrix object filepath"),
-  make_option(c("-f", "--filename"), action= "store",
-              type = "character",
-              help = "file name")
-)
+# option_list <- list(
+#   make_option(c("-d", "--datadir"), action = "store",
+#               type = "character",
+#               help="matrix object filepath"),
+#   make_option(c("-f", "--filename"), action= "store",
+#               type = "character",
+#               help = "file name")
+# )
 
-parser <- OptionParser(option_list=option_list)
+# parser <- OptionParser(option_list=option_list)
 
-args <- parse_args(parser, positional_arguments = 1)
-working_dir <- args$datadir
-file <- args$filename
+# args <- parse_args(parser, positional_arguments = 1)
+# working_dir <- args$datadir
+# file <- args$filename
+# file_dir <- paste(working_dir, file, sep = "/")
+if (length(args)==0) {
+  stop("At least one argument must be supplied (input file).n", call.=FALSE)
+}
+working_dir <- args[1]
+file <- args[2]
 file_dir <- paste(working_dir, file, sep = "/")
+
 
 if (file.exists(file_dir)==FALSE){
   print(file_dir)
