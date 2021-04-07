@@ -100,4 +100,4 @@ if (dir.exists(out_dir)){
   out_dir <- out_dir
 } else {dir.create(out_dir)}
 
-saveRDS(Sobj, paste(working_dir,"/output/", "SCT_", out_name, ".rds" sep =""))
+saveRDS(Sobj, paste(working_dir,"/output/", "SCT_", out_name, ".rds", sep =""))
