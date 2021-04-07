@@ -20,10 +20,10 @@ library(cowplot)
 library(optparse)
 
 option_list <- list(
-  make_option(c("-d", "--data_dir"), action = "store",
+  make_option(c("-d", "--datadir"), action = "store",
               type = "character",
               help="matrix object filepath"),
-  make_option(c("-f", "--file_name"), action= "store",
+  make_option(c("-f", "--filename"), action= "store",
               type = "character",
               help = "file name")
 )
@@ -31,8 +31,8 @@ option_list <- list(
 parser <- OptionParser(option_list=option_list)
 
 args <- parse_args(parser, positional_arguments = 1)
-working_dir <- args$data_dir
-file <- args$fine_name
+working_dir <- args$datadir
+file <- args$filename
 file_dir <- paste(working_dir, file, sep = "/")
 
 if (file.exists(file_dir)==FALSE){
