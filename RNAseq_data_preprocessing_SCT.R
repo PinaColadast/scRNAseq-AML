@@ -92,6 +92,12 @@ Sobj <- CreateSeuratObject(mtx, min.cells = 3, min.features = 200)
 # SCT transformation  
 #==========================================================================
 
-Sobj <- Seurat.STnorm.pca(Sobj)
+# Sobj <- Seurat.STnorm.pca(Sobj)
 out_name <- strsplit(file, ".", fixed = TRUE)[[1]][[1]]
-saveRDS(Sobj, paste(working_dir,"/output/", "SCT_", out_name, sep =""))
+out_dir <- paste(working_dir,"/output", sep ="")
+
+if (dir.exists(out_dir)){
+  out_dir <- out_dir
+} else {dir.create(out_dir)}
+
+saveRDS(Sobj, paste(working_dir,"/output/", "SCT_", out_name, ".rds" sep =""))
