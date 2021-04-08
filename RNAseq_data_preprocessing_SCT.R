@@ -3,7 +3,7 @@
 args = commandArgs(trailingOnly = TRUE)
 
 library(data.table)
-library(ggplot2)
+#library(ggplot2)
 library(reshape)
 library(corrplot)
 library(Matrix)
@@ -11,9 +11,8 @@ library(Seurat)
 library(SeuratData)
 library(dplyr)
 library(tidyverse)
-library(cowplot)
-library(biomaRt)
-library(SingleCellExperiment)
+#library(biomaRt)
+#library(SingleCellExperiment)
 library(scater)
 library(patchwork)
 library(cowplot)
@@ -85,7 +84,7 @@ Seurat.STnorm.pca <- function(SeuratObj){
 #=============================================================================
 # load expression matrix, create Seurat object
 #=============================================================================
-mtx <- read.table(file_dir, row.names=1, header = TRUE)
+mtx <- read.table(file_dir, row.names=1, header = TRUE, sep = "/t")
 Sobj <- CreateSeuratObject(mtx, min.cells = 3, min.features = 200)
 
 #==========================================================================
