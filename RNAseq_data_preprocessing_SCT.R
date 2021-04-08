@@ -84,7 +84,7 @@ Seurat.STnorm.pca <- function(SeuratObj){
 #=============================================================================
 # load expression matrix, create Seurat object
 #=============================================================================
-mtx <- read.table(file_dir, row.names=1, header = TRUE, sep = "/t")
+mtx <- read.table(file_dir, row.names=1, header = TRUE, sep = ",")
 Sobj <- CreateSeuratObject(mtx, min.cells = 3, min.features = 200)
 
 #==========================================================================
