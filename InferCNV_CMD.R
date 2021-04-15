@@ -47,7 +47,9 @@ data <- read.table(mat_dir, sep = "\t", header = TRUE, row.names=1)
 raw_counts_matrix <- as.matrix(data)
 
 # 2. cell annotation files
-cell_anno <- read.table(anno_dir, sep = "\t", row.names = 1)
+cell_anno <- read.table(anno_dir, sep = "\t", header = FALSE, row.names = 1)
+write.table(cell_anno, paste(getwd(), "output/cell.annotation.txt", sep = "/"),
+            col.names = FALSE, sep = "\t" )
 #made already
 
 #------------------------------------------------------
@@ -101,7 +103,7 @@ if (dir.exists(out_dir)){
 } else {dir.create(out_dir)}
 
 infercnv_obj = CreateInfercnvObject(raw_counts_matrix=counts_matrix,
-                                    annotations_file=cell_anno,
+                                    annotations_file=paste(getwd(), "output/cell.annotation.txt", sep = "/"),
                                     delim="\t",
                                     gene_order_file= paste(getwd(), "output/gene_chromopos.txt", sep = "/"),
                                     ref_group_names=c("normal")) 
