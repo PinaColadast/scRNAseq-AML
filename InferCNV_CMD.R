@@ -37,7 +37,7 @@ Sys.setenv(language="en")
 # 1. raw_counts matrix 
 # extract from Seurat object 
 # Read rds dataset
-data <- read.table(mat_dir, sep = "/t", header = TRUE, row.names=1, quote="", comment.char="")
+data <- read.table(mat_dir, sep = "\t", header = TRUE, row.names=1, quote="", comment.char="")
 
 raw_counts_matrix <- data
 
