@@ -90,7 +90,7 @@ write.table(results_unique, paste(getwd(), "/output/gene_chromopos.txt", sep = "
 
 # filter the counts matrix according to results of chromosome positions
 # counts_matrix <- raw_counts_matrix[c(results_unique$hgnc_symbol), ]
-counts_matrix -> raw_counts_matrix %>% filter(row.names(raw_counts_matrix) %in% c(results_unique$hgnc_symbol))
+counts_matrix <- raw_counts_matrix %>% filter(row.names(raw_counts_matrix) %in% c(results_unique$hgnc_symbol))
 # write.table(counts_matrix, file = paste(getwd(), "output/cnt_matrix.txt", sep = "/")
 #              , sep = "\t", col.names= TRUE, row.names = TRUE)
 
