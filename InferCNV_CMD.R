@@ -1,3 +1,5 @@
+args = commandArgs(trailingOnly = TRUE)
+
 install.packages("rjags") #necessary for installing infercnv 
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
@@ -17,26 +19,20 @@ library(optparse)
 # arguments parser set-up
 #=====================================================================#
 
-option_list <- list(
-  make_option(c("-d", "--data_dir"),
-              help="data directory for input seurat object file"),
-  make_option(c("-f", "--file_name"), 
-              help = "file name for RDS(Seurat object) file,
-              please label cell with tumor/norm in metadata column '[cell.ident]'")
-)
+if (length(args)==0) {
+  stop("At least one argument must be supplied (input file).n", call.=FALSE)
+}
+working_dir <- args[1]
+mat_file <- args[2]
+anno_file <- args[3]
+mat_dir <- paste(working_dir, mat_file, sep = "/")
+anno_dir <- paste(working_dir, anno_file, sep = "/")
 
-parser <- OptionParser(usage="%prog [options] file", option_list=option_list)
 
-args <- parse_args(parser, positional_arguments = 1)
-working_dir <- args$data_dir
-file <- args$fine_name
-file_dir <- paste(working_dir, file, sep = "/")
-
-if (file.exists(file_dir)==FALSE){
+if (file.exists(mat_dir)==FALSE){
+  print(file_dir)
   stop("input file doesn't exist, please show correct file")
 }
-
-
 #set working directory
 setwd(working_dir)
 working_dir <- getwd()
@@ -48,17 +44,13 @@ Sys.setenv(language="en")
 # 1. raw_counts matrix 
 # extract from Seurat object 
 # Read rds dataset
-data <- readRDS(paste(working_dir, "/CTCL-tumor-normal-seurat.rds", sep =""))
+data <- read.table(mat_dir, sep = "/t", header = TRUE, row.names=1)
 
-raw_counts_matrix <- data@assays[["RNA"]]
+raw_counts_matrix <- data
 
 # 2. cell annotation files
 
-df_meta <- data@meta.data
-
-cell.annotation <- data@meta.data["cell.ident"]
-write.table(cell.annotation, paste(getwd(), "output/cell.annotation.txt", sep = "/"),
-            col.names = FALSE, sep = "\t" )
+#made already
 
 #------------------------------------------------------
 # 3. gene order file (order on Chromosomes)
@@ -111,7 +103,7 @@ if (dir.exists(out_dir)){
 } else {dir.create(out_dir)}
 
 infercnv_obj = CreateInfercnvObject(raw_counts_matrix=counts_matrix,
-                                    annotations_file=paste(getwd(), "output/cell.annotation.txt", sep = "/"),
+                                    annotations_file=anno_dir,
                                     delim="\t",
                                     gene_order_file= paste(getwd(), "output/gene_chromopos.txt", sep = "/"),
                                     ref_group_names=c("normal")) 
