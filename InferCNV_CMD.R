@@ -106,7 +106,7 @@ infercnv_obj = CreateInfercnvObject(raw_counts_matrix=counts_matrix,
                                     annotations_file=paste(getwd(), "output/cell.annotation.txt", sep = "/"),
                                     delim="\t",
                                     gene_order_file= paste(getwd(), "output/gene_chromopos.txt", sep = "/"),
-                                    ref_group_names=c("normal")) 
+                                    ref_group_names=c("norm")) 
 
 
 infercnv_obj = infercnv::run(infercnv_obj,
