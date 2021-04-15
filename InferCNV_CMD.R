@@ -89,9 +89,10 @@ write.table(results_unique, paste(getwd(), "/output/gene_chromopos.txt", sep = "
             col.names = FALSE, row.names = FALSE,  sep = "\t", quote = FALSE)
 
 # filter the counts matrix according to results of chromosome positions
-counts_matrix <- raw_counts_matrix[c(results_unique$hgnc_symbol), ]
-write.table(counts_matrix, file = paste(getwd(), "output/cnt_matrix.txt", sep = "/")
-             , sep = "\t", col.names= TRUE, row.names = TRUE)
+# counts_matrix <- raw_counts_matrix[c(results_unique$hgnc_symbol), ]
+counts_matrix -> raw_counts_matrix %>% filter(row.names(raw_counts_matrix) %in% c(results_unique$hgnc_symbol))
+# write.table(counts_matrix, file = paste(getwd(), "output/cnt_matrix.txt", sep = "/")
+#              , sep = "\t", col.names= TRUE, row.names = TRUE)
 
 
 #-------------------------------------------------------------------------------
@@ -103,7 +104,7 @@ if (dir.exists(out_dir)){
   out_dir <- out_dir
 } else {dir.create(out_dir)}
 
-infercnv_obj = CreateInfercnvObject(raw_counts_matrix=paste(getwd(), "output/cnt_matrix.txt", sep = "/"),
+infercnv_obj = CreateInfercnvObject(raw_counts_matrix=counts_matrix,
                                     annotations_file=paste(getwd(), "output/cell.annotation.txt", sep = "/"),
                                     delim="\t",
                                     gene_order_file= paste(getwd(), "output/gene_chromopos.txt", sep = "/"),
