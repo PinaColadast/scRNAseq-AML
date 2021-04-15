@@ -43,8 +43,9 @@ Sys.setenv(language="en")
 # extract from Seurat object 
 # Read rds dataset
 data <- read.table(mat_dir, sep = "\t", header = TRUE, row.names=1)
-Sobj <- CreateSeuratObject(data, min.cells = 3, min.features = 200)
-raw_counts_matrix <- as.matrix(Sobj@assays[["RNA"]]@counts)
+# Sobj <- CreateSeuratObject(data, min.cells = 3, min.features = 200)
+# raw_counts_matrix <- as.matrix(Sobj@assays[["RNA"]]@counts)
+raw_counts_matrix<- as.matrix(data)
 
 # 2. cell annotation files
 cell_anno <- read.table(anno_dir, sep = "\t", header = FALSE, row.names = 1)
