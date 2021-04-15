@@ -1,12 +1,5 @@
 args = commandArgs(trailingOnly = TRUE)
 
-install.packages("rjags") #necessary for installing infercnv 
-if (!requireNamespace("BiocManager", quietly = TRUE))
-  install.packages("BiocManager")
-BiocManager::install("infercnv")
-
-install.packages("optparse")
-
 
 library(infercnv)
 library(biomaRt)
