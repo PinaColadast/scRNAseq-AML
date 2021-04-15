@@ -26,6 +26,11 @@ if (file.exists(mat_dir)==FALSE){
   print(file_dir)
   stop("input file doesn't exist, please show correct file")
 }
+
+if (file.exists(anno_dir)==FALSE){
+  print(file_dir)
+  stop("input file doesn't exist, please show correct file")
+}
 #set working directory
 setwd(working_dir)
 working_dir <- getwd()
@@ -37,7 +42,7 @@ Sys.setenv(language="en")
 # 1. raw_counts matrix 
 # extract from Seurat object 
 # Read rds dataset
-data <- read.table(mat_dir, sep = "\t", header = TRUE, row.names=1, quote="")
+data <- read.table(mat_dir, sep = "\t", header = TRUE, row.names=1)
 
 raw_counts_matrix <- as.matrix(data)
 
