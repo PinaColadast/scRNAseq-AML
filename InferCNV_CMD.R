@@ -39,7 +39,7 @@ Sys.setenv(language="en")
 # Read rds dataset
 data <- read.table(mat_dir, sep = "\t", header = TRUE, row.names=1, quote="", comment.char="")
 
-raw_counts_matrix <- data
+raw_counts_matrix <- as.matrix(data)
 
 # 2. cell annotation files
 
