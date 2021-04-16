@@ -14,33 +14,31 @@ library(patchwork)
 
 
 reference <- LoadH5Seurat("/home/tjinyan/work_dir/CTCL/data/pbmc_multimodal.h5seurat")
-data_dir <- "/home/tjinyan/work_dir/CTCL/data/Human_PBMC_10k/filtered_feature_bc_matrix"
+data_dir <- "/home/tjinyan/work_dir/AML/data/classifier/mut/AMLnature_train.rds"
 #==========================================================================
 #read in mtx 
 #==========================================================================
 # Read in `matrix.mtx`
-counts <- readMM(paste(data_dir,
-                       "matrix.mtx.gz",
-                       sep= "/")
-)
+# counts <- readMM(paste(data_dir,
+#                        "matrix.mtx.gz",
+#                        sep= "/")
+# )
 
-# Read in `genes.tsv`
-genes <- read_tsv(paste(data_dir,
-                        "features.tsv.gz",
-                        sep= "/"), col_names = FALSE)
-gene_ids <- genes$X2
+# # Read in `genes.tsv`
+# genes <- read_tsv(paste(data_dir,
+#                         "features.tsv.gz",
+#                         sep= "/"), col_names = FALSE)
+# gene_ids <- genes$X2
 
 # Read in `barcodes.tsv`
-cell_ids <- read_tsv(paste(data_dir, "barcodes.tsv.gz", sep = "/"),
-                     col_names = FALSE)$X1
+# cell_ids <- read_tsv(paste(data_dir, "barcodes.tsv.gz", sep = "/"),
+#                      col_names = FALSE)$X1
 
-rownames(counts) <- gene_ids
-colnames(counts) <- cell_ids
-SeuratObj <- CreateSeuratObject(counts, project = "SeuratProject", assay = "RNA",
-                           min.cells = 0, min.features = 0, names.field = 1,
-                           names.delim = "_", meta.data = NULL)
+# rownames(counts) <- gene_ids
+# colnames(counts) <- cell_ids
+SeuratObj <- readRDS(data_dir)
 
-DimPlot(object = reference, reduction = "wnn.umap", group.by = "celltype.l2", label = TRUE, label.size = 3, repel = TRUE) + NoLegend()
+# DimPlot(object = reference, reduction = "wnn.umap", group.by = "celltype.l2", label = TRUE, label.size = 3, repel = TRUE) + NoLegend()
 
 
 
@@ -85,7 +83,8 @@ anchors <- FindTransferAnchors(
   reference.reduction = "pca",
   dims = 1:50
 )
-#for multi-modal data
+# for non-multimodal data
+
 SeuratObj <- MapQuery(
   anchorset = anchors,
   query = SeuratObj,
@@ -98,3 +97,5 @@ SeuratObj <- MapQuery(
   reference.reduction = "spca", 
   reduction.model = "wnn.umap"
 )
+
+saveRDS(SeuratObj, "~/work_dir/AML/data/classifier/mut/AMLnature_train.SCT.rds")
