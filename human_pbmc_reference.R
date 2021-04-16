@@ -10,10 +10,11 @@ library(tidyverse)
 library(cowplot)
 library(sctransform)
 library(SeuratDisk)
+library(SeuratData)
 library(patchwork)
 
 
-reference <- LoadH5Seurat("/home/tjinyan/work_dir/CTCL/data/pbmc_multimodal.h5seurat")
+reference <- "/home/tjinyan/work_dir/AML/data/bmcite6000.SCT.rds"
 data_dir <- "/home/tjinyan/work_dir/AML/data/classifier/mut/AMLnature_train.rds"
 #==========================================================================
 #read in mtx 
