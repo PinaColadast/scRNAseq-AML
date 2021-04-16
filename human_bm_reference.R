@@ -111,7 +111,7 @@ anchors <- FindTransferAnchors(
 SeuratObj <- MapQuery(
   anchorset = anchors,
   query = SeuratObj,
-  reference = reference,
+  reference = bm,
   refdata = list(
     celltype.l1 = "celltype.l1",
     celltype.l2 = "celltype.l2",
