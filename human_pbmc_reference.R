@@ -14,7 +14,7 @@ library(SeuratData)
 library(patchwork)
 
 
-reference <- "/home/tjinyan/work_dir/AML/data/bmcite6000.SCT.rds"
+bm <- "/home/tjinyan/work_dir/AML/data/bmcite6000.SCT.rds"
 data_dir <- "/home/tjinyan/work_dir/AML/data/classifier/mut/AMLnature_train.rds"
 #==========================================================================
 #read in mtx 
@@ -77,12 +77,34 @@ Seurat.STnorm.pca <- function(SeuratObj){
 
 SeuratObj<- Seurat.STnorm.pca(SeuratObj)
 
+bm <- RunUMAP(bm, nn.name = "weighted.nn", reduction.name = "wnn.umap", 
+              reduction.key = "wnnUMAP_", return.model = TRUE)
+# DimPlot(bm, group.by = "celltype.l2", reduction = "wnn.umap") 
+
+bm <- ScaleData(bm, assay = 'RNA')
+bm <- RunSPCA(bm, assay = 'RNA', graph = 'wsnn')
+bm <- FindNeighbors(
+  object = bm,
+  reduction = "spca",
+  dims = 1:50,
+  graph.name = "spca.annoy.neighbors", 
+  k.param = 50,
+  cache.index = TRUE,
+  return.neighbor = TRUE,
+  l2.norm = TRUE
+)
+
+           
+            
+
+
 anchors <- FindTransferAnchors(
-  reference = reference,
+  reference = bm,
   query = SeuratObj,
   normalization.method = "SCT",
-  reference.reduction = "pca",
+  reference.reduction = "spca",
   dims = 1:50
+  reference.neighbors = "spca.annoy.neighbors"
 )
 # for non-multimodal data
 
