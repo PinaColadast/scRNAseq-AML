@@ -22,7 +22,7 @@ mutation_function <- function(cell_ID, mutate_cell){
   return (mutate_status)
 }
 
-gene_function <- function(cell_ID, mutate_cell){
+gene_function <- function(cell_ID, mutate_cell, mutation){
   if(cell_ID %in% mutate_cell){
      cell<- mutation %>% filter(Cell == cell_ID)
      if (dim(cell)[[1]] >=2){
@@ -45,7 +45,8 @@ adding_mutation_info <- function(Sobj1, alignment){
   Sobj1$mutation_annotation <- unlist(lapply(cell.ID, mutation_function,
                                              mutate_cell = mutate_cell))
   Sobj1$mutated_gene <- unlist(lapply(cell.ID, gene_function,
-                                      mutate_cell = mutate_cell))
+                                      mutate_cell = mutate_cell,
+                                      mutation = mutation))
   
   return (Sobj1)
 }
