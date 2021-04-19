@@ -93,7 +93,6 @@ Seurat.STnorm.pca <- function(SeuratObj){
   return(SeuratObj.ST)
 }
 
-SeuratObj<- Seurat.STnorm.pca(SeuratObj)
 
 bm <- RunUMAP(bm, nn.name = "weighted.nn", reduction.name = "wnn.umap", 
               reduction.key = "wnnUMAP_", return.model = TRUE)
@@ -108,7 +107,7 @@ bm <- RunUMAP(bm, nn.name = "weighted.nn", reduction.name = "wnn.umap",
 anchors <- FindTransferAnchors(
   reference = bm,
   query = SeuratObj,
-  normalization.method = "SCT",
+#   normalization.method = "SCT",
   reference.reduction = "spca",
   dims = 1:50,
   reference.neighbors = "spca.annoy.neighbors"
@@ -128,4 +127,7 @@ SeuratObj <- MapQuery(
   reduction.model = "wnn.umap"
 )
 
+SeuratObj<- Seurat.STnorm.pca(SeuratObj)
+
 saveRDS(SeuratObj, "~/work_dir/AML/data/classifier/mut/AMLnature_train.SCT.rds")
+
