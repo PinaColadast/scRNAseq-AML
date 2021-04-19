@@ -1,6 +1,7 @@
-args = commandArgs(trailingOnly = TRUE)
-
 rm(list=ls())
+
+args <- commandArgs(trailingOnly = TRUE)
+
 library(ggplot2)
 library(data.table)
 library(reshape)
