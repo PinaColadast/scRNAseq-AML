@@ -1,4 +1,4 @@
-args = commandArgs(trailingOnly = TRUE)
+# args = commandArgs(trailingOnly = TRUE)
 
 rm(list=ls())
 library(ggplot2)
@@ -16,11 +16,11 @@ library(SeuratData)
 library(patchwork)
 library(optparse)
 
-if (length(args)==0) {
-  stop("At least one argument must be supplied (input file).n", call.=FALSE)
-}
-working_dir <- args[1]
-filename <- args[2]
+# if (length(args)==0) {
+#   stop("At least one argument must be supplied (input file).n", call.=FALSE)
+# }
+# working_dir <- args[1]
+# filename <- args[2]
 
 InstallData("bmcite")
 bm <- LoadData(ds = "bmcite")
@@ -41,7 +41,9 @@ bm <- FindNeighbors(
 )
 
 
-data_dir <- paste(working_dir, filename, sep = "/")
+# data_dir <- paste(working_dir, filename, sep = "/")
+data_dir <- "/home/tjinyan/work_dir/AML/data/classifier/AMLnature/AML.mutation.annotation.rds"
+
 #==========================================================================
 #read in mtx 
 #==========================================================================
@@ -137,5 +139,5 @@ SeuratObj <- MapQuery(
 
 SeuratObj<- Seurat.STnorm.pca(SeuratObj)
 
-saveRDS(SeuratObj, paste(working_dir, "/SCT_", filename, sep = ""))
+saveRDS(SeuratObj, "/home/tjinyan/work_dir/AML/data/classifier/AMLnature/SCT_AML.mutation.annotation.rds")
 
