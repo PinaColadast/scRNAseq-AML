@@ -110,7 +110,7 @@ anchors <- FindTransferAnchors(
   query = SeuratObj,
   normalization.method = "SCT",
   reference.reduction = "spca",
-  dims = 1:50
+  dims = 1:50,
   reference.neighbors = "spca.annoy.neighbors"
 )
 # for non-multimodal data
