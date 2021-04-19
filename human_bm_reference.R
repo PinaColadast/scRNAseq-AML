@@ -14,7 +14,25 @@ library(SeuratData)
 library(patchwork)
 
 
-bm <- "/home/tjinyan/work_dir/AML/data/bmcite6000.SCT.rds"
+InstallData("bmcite")
+bm <- LoadData(ds = "bmcite")
+bm <- RunUMAP(bm, nn.name = "weighted.nn", reduction.name = "wnn.umap", 
+              reduction.key = "wnnUMAP_", return.model = TRUE)
+bm <- ScaleData(bm, assay = 'RNA')
+bm <- RunSPCA(bm, assay = 'RNA', graph = 'wsnn')
+
+bm <- FindNeighbors(
+  object = bm,
+  reduction = "spca",
+  dims = 1:50,
+  graph.name = "spca.annoy.neighbors", 
+  k.param = 50,
+  cache.index = TRUE,
+  return.neighbor = TRUE,
+  l2.norm = TRUE
+)
+
+
 data_dir <- "/home/tjinyan/work_dir/AML/data/classifier/mut/AMLnature_train.rds"
 #==========================================================================
 #read in mtx 
@@ -81,18 +99,7 @@ bm <- RunUMAP(bm, nn.name = "weighted.nn", reduction.name = "wnn.umap",
               reduction.key = "wnnUMAP_", return.model = TRUE)
 # DimPlot(bm, group.by = "celltype.l2", reduction = "wnn.umap") 
 
-bm <- ScaleData(bm, assay = 'RNA')
-bm <- RunSPCA(bm, assay = 'RNA', graph = 'wsnn')
-bm <- FindNeighbors(
-  object = bm,
-  reduction = "spca",
-  dims = 1:50,
-  graph.name = "spca.annoy.neighbors", 
-  k.param = 50,
-  cache.index = TRUE,
-  return.neighbor = TRUE,
-  l2.norm = TRUE
-)
+
 
            
             
