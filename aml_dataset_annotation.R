@@ -71,7 +71,7 @@ for (i in 1:length(sample_ID)){
                        sample_ID[i], ".anno.rds", sep = "")
   
   alignment <- read.table(mut_anno_path, row.names = NULL)
-  Sojb1 <- readRDS(rds_path)
+  Sobj1 <- readRDS(rds_path)
   Sobj1 <- UpdateSeuratObject(Sobj1)
   
   Sobj1<- adding_mutation_info(Sobj1, alignment)
