@@ -14,6 +14,7 @@ library(sctransform)
 library(SeuratDisk)
 library(SeuratData)
 library(patchwork)
+library(optparse)
 
 if (length(args)==0) {
   stop("At least one argument must be supplied (input file).n", call.=FALSE)
