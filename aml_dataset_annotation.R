@@ -63,7 +63,7 @@ adding_mutation_info <- function(Sobj1, alignment){
 # Sobj1_mut <- subset(Sobj1, ident = mmutate_cell)
 # saveRDS(Sobj1_mut, "C:/Users/jtao/work_dir/AML/data/AMLnature/mut/809653_mut.seurat.rds") 
 
-sample_ID <- c("508084", "548327", "782328")
+sample_ID <- c("508084", "548327", "782328", "809653", "721214")
 seurat_list <- list()
 for (i in 1:length(sample_ID)){
   rds_path <- paste("/home/tjinyan/work_dir/AML/data/classifier/AMLnature/",
