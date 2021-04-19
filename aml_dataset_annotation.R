@@ -70,7 +70,7 @@ for (i in 1:length(sample_ID)){
   output_path <- paste("/home/tjinyan/work_dir/AML/data/classifier/AMLnature/",
                        sample_ID[i], ".anno.rds", sep = "")
   
-  alignment <- read.table(mutate_file_path, row.names = NULL)
+  alignment <- read.table(mut_anno_path, row.names = NULL)
   Sojb1 <- readRDS(rds_path)
   Sobj1 <- UpdateSeuratObject(Sobj1)
   
