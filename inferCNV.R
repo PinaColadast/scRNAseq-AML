@@ -12,7 +12,7 @@ library(dplyr)
 library(Seurat)
 
 #set working directory
-setwd("/home/tjinyan/work_dir/CTCL")
+setwd("/home/tjinyan/work_dir/AML/data/classifier")
 working_dir <- getwd()
 Sys.setenv(language="en")
 #----------------------------------------------------------------------------
@@ -22,7 +22,7 @@ Sys.setenv(language="en")
 # 1. raw_counts matrix 
 # extract from Seurat object 
 # Read rds dataset
-data <- readRDS(paste(working_dir, "/data/cite-seq-ctcl-ctrl.rds",sep =""))
+data <- readRDS(paste(working_dir, "/AMLCell_norm_mut.rds",sep =""))
 # run SCT to take out doplets#
 Seurat.STnorm.pca <- function(SeuratObj){
   
@@ -47,10 +47,10 @@ raw_counts_matrix <- data@assays[["RNA"]]
 # 2. cell annotation files
 
 tumor_function <- function (orig_ident) {
-  if (grepl('tumor', orig_ident)) {
+  if (grepl('AML', orig_ident)) {
     new_iden = 'tumor'
     
-  } else if (grepl('norm', orig_ident)){new_iden = 'norm'
+  } else if (grepl('BM', orig_ident)){new_iden = 'norm'
   
   }
   
@@ -68,7 +68,7 @@ df_meta <- data@meta.data
 df_meta$cell.ident <- new_iden
 #df_meta["cell.ident"]
 cell.annotation <- df_meta["cell.ident"]
-write.table(cell.annotation, paste(getwd(), "data/output/cell.annotation.txt", sep = "/"),
+write.table(cell.annotation, paste(getwd(), "output/cell.annotation.txt", sep = "/"),
                 col.names = FALSE, sep = "\t" )
 
 #------------------------------------------------------
@@ -115,15 +115,15 @@ counts_matrix <- raw_counts_matrix[c(results$hgnc_symbol), ]
 #-------------------------------------------------------------------------------
 # Create InferCNV object and run ------------------------------------------
 #-------------------------------------------------------------------------------
-out_dir <- paste(getwd(), "/data/output/InferCNV/", sep ="")
+out_dir <- paste(getwd(), "/output/InferCNV_AML/", sep ="")
 if (dir.exists(out_dir)){
 	    out_dir <- out_dir
   } else {dir.create(out_dir)}
 
 infercnv_obj = CreateInfercnvObject(raw_counts_matrix=counts_matrix,
-                                    annotations_file=paste(getwd(), "data/output/cell.annotation.txt", sep = "/"),
+                                    annotations_file=paste(getwd(), "output/cell.annotation.txt", sep = "/"),
                                     delim="\t",
-                                    gene_order_file= paste(getwd(), "data/output/gene_chromopos.txt", sep = "/"),
+                                    gene_order_file= paste(getwd(), "output/gene_chromopos.txt", sep = "/"),
                                     ref_group_names=c("norm"))
 infercnv_obj = infercnv::run(infercnv_obj, cutoff=0.1,
 			     # cutoff=1 works well for Smart-seq2, and cutoff=0.1 works well for 10x Genomics
