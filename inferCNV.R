@@ -103,7 +103,7 @@ rep_gene <- data.frame(table(results$hgnc_symbol))
 results_unique <- results[!duplicated(results$hgnc_symbol), ]
 results_unique
 # write table of gene notations
-write.table(results_unique, paste(getwd(), "data/output/gene_chromopos.txt", sep = "/"),
+write.table(results_unique, paste(getwd(), "output/gene_chromopos.txt", sep = "/"),
             col.names = FALSE, row.names = FALSE,  sep = "\t", quote = FALSE)
 
 # filter the counts matrix according to results of chromosome positions
