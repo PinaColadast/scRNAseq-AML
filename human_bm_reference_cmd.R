@@ -23,6 +23,9 @@ if (length(args)==0) {
 working_dir <- args[1]
 filename <- args[2]
 
+data_dir <- paste(working_dir, filename, sep = "/")
+SeuratObj <- readRDS(data_dir)
+
 InstallData("bmcite")
 bm <- LoadData(ds = "bmcite")
 bm <- RunUMAP(bm, nn.name = "weighted.nn", reduction.name = "wnn.umap", 
@@ -41,8 +44,20 @@ bm <- FindNeighbors(
   l2.norm = TRUE
 )
 
-
-data_dir <- paste(working_dir, filename, sep = "/")
+RECODE_Ontology <- function(Seuratobj){
+  
+  Seuratobj$predicted.celltype.l2 <- recode(Seuratobj$predicted.celltype.l2, "CD14 Mono"="CD14-positive, CD16-negative classical monocyte",
+                                            "CD16 Mono"="CD14-low, CD16-positive monocyte", 
+                                            "CD4 Memory"="effector memory CD4 T cell", "CD56 bright NK"="natural killer cell",
+                                            "CD8 Effector_1"="effector CD8 T cell", "CD8 Effector_2"="effector CD8 T cell", "CD8 Memory_2"="effector memory CD8 T cell", 
+                                            "CD8 Memory_1"="effector memory CD8 T cell", "cDC2"="CD1c-positive myeloid dendritic cell",
+                                            "GMP" ="granulocyte monocyte progenitor", "HSC"="hematopoietic stem cell","LMPP"="lymphoid-primed multipotent progenitor" , 
+                                            "Memory B"="memory B cell", "NK"="natural killer cell", "pDC"="plasmacytoid dendritic cell", "Plasmablast"="plasmablast", 
+                                            "Prog_B 1"="pro-B cell", "Prog_B 2"="pro-B cell","Prog_DC"="common dendritic progenitor", "Prog_Mk"="megakaryocyte progenitor cell", "Prog_RBC"="erythroid progenitor cell",
+                                            "Naive B"="naive B cell","NULL"="NULL")
+  
+  return(Seuratobj)
+}
 #==========================================================================
 #read in mtx 
 #==========================================================================
@@ -64,7 +79,7 @@ data_dir <- paste(working_dir, filename, sep = "/")
 
 # rownames(counts) <- gene_ids
 # colnames(counts) <- cell_ids
-SeuratObj <- readRDS(data_dir)
+
 
 # DimPlot(object = reference, reduction = "wnn.umap", group.by = "celltype.l2", label = TRUE, label.size = 3, repel = TRUE) + NoLegend()
 
@@ -137,6 +152,7 @@ SeuratObj <- MapQuery(
 )
 
 SeuratObj<- Seurat.STnorm.pca(SeuratObj)
+SeuratObj <- RECODE_Ontology(SeuratObj)
 
 saveRDS(SeuratObj, paste(working_dir, "/SCT_", filename, sep = ""))
 
