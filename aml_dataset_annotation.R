@@ -80,10 +80,34 @@ for (i in 1:length(sample_ID)){
   Sobj1<- adding_mutation_info(Sobj1, alignment)
   saveRDS(Sobj1, output_path)
   seurat_list[[i]] <- Sobj1
+  
+  print(paste("output in:", output_path, sep =" "))
 }
 
-seurat.big <- merge(unlist(seurat_list), add.cell.ids = sample_ID, 
+seurat.big <- merge(seurat_list[[1]], unlist(seurat_list[[2:length(sample_ID)]]), 
+                    add.cell.ids = sample_ID, 
                     project = "AML.mutation.annotation")
 
 saveRDS(seurat.big, "/home/tjinyan/work_dir/AML/data/classifier/AMLnature/AML.mutation.annotation.rds")
 
+
+
+# seurat_list <- list()
+# 
+# for (i in 1:length(sample_ID)){
+#   rds_path <- paste("/home/tjinyan/work_dir/AML/data/classifier/AMLnature/",
+#                     sample_ID[i], ".anno.rds", sep = "")
+#   
+#   Sobj1 <- readRDS(rds_path)
+#   seurat_list[[i]] <- Sobj1
+# }
+# 
+# seurat.big <- merge(seurat_list[[1]], 
+#                       c(seurat_list[[2]],
+#                       seurat_list[[3]],
+#                       seurat_list[[4]],
+#                       seurat_list[[5]]
+#                       ), add.cell.ids = sample_ID, 
+#                     project = "AML.mutation.annotation")
+
+saveRDS(seurat.big, "/home/tjinyan/work_dir/AML/data/classifier/AMLnature/AML.mutation.annotation.rds")

@@ -1,9 +1,9 @@
 #raw data processing 
 #based on RNA transcriptomic matrix
-args = commandArgs(trailingOnly = TRUE)
+
 
 library(data.table)
-#library(ggplot2)
+library(ggplot2)
 library(reshape)
 library(corrplot)
 library(Matrix)
@@ -11,35 +11,30 @@ library(Seurat)
 library(SeuratData)
 library(dplyr)
 library(tidyverse)
-#library(biomaRt)
-#library(SingleCellExperiment)
+library(cowplot)
+library(biomaRt)
+library(SingleCellExperiment)
 library(scater)
+library(SingleR)
 library(patchwork)
 library(cowplot)
 library(optparse)
 
-# option_list <- list(
-#   make_option(c("-d", "--datadir"), action = "store",
-#               type = "character",
-#               help="matrix object filepath"),
-#   make_option(c("-f", "--filename"), action= "store",
-#               type = "character",
-#               help = "file name")
-# )
+option_list <- list(
+  make_option(c("-d", "--data_dir"), action = "store",
+              type = "character",
+              help="matrix object filepath"),
+  make_option(c("-f", "--file_name"), action= "store",
+              type = "character",
+              help = "file name")
+)
 
-# parser <- OptionParser(option_list=option_list)
+parser <- OptionParser(option_list=option_list)
 
-# args <- parse_args(parser, positional_arguments = 1)
-# working_dir <- args$datadir
-# file <- args$filename
-# file_dir <- paste(working_dir, file, sep = "/")
-if (length(args)==0) {
-  stop("At least one argument must be supplied (input file).n", call.=FALSE)
-}
-working_dir <- args[1]
-file <- args[2]
+args <- parse_args(parser, positional_arguments = 1)
+working_dir <- args$data_dir
+file <- args$fine_name
 file_dir <- paste(working_dir, file, sep = "/")
-
 
 if (file.exists(file_dir)==FALSE){
   print(file_dir)
@@ -84,7 +79,7 @@ Seurat.STnorm.pca <- function(SeuratObj){
 #=============================================================================
 # load expression matrix, create Seurat object
 #=============================================================================
-mtx <- read.table(file_dir, row.names=1, header = TRUE, sep = ",")
+mtx <- read.table(file_dir, row.names=1, header = TRUE)
 Sobj <- CreateSeuratObject(mtx, min.cells = 3, min.features = 200)
 
 #==========================================================================
@@ -92,11 +87,4 @@ Sobj <- CreateSeuratObject(mtx, min.cells = 3, min.features = 200)
 #==========================================================================
 
 Sobj <- Seurat.STnorm.pca(Sobj)
-out_name <- strsplit(file, ".", fixed = TRUE)[[1]][[1]]
-out_dir <- paste(working_dir,"/output", sep ="")
-
-if (dir.exists(out_dir)){
-  out_dir <- out_dir
-} else {dir.create(out_dir)}
-
-saveRDS(Sobj, paste(working_dir,"/output/", "SCT_", out_name, ".rds", sep =""))
+saveRDS(Sobj, paste(working_dir,"/output/", "SCT_", file, sep =""))
